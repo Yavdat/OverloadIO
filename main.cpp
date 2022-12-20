@@ -10,8 +10,9 @@ struct Duration {
     int hour;
     int min;
     Duration(int h=0, int m=0) {
-        hour = h;
-        min = m;
+        int total = h * 60 + m; // это делается для того, чтобы минуты укладывались в определенный интервал 0-59
+        hour = total / 60;
+        min = total % 60;
     }
 };
 
@@ -45,6 +46,25 @@ ostream& operator<<(ostream& stream, const Duration& duration) {
     return stream;
 }
 
+Duration operator+(const Duration& lhs, const Duration& rhs) {
+    return Duration(lhs.hour + rhs.hour, lhs.min + rhs.min);
+}
+
+void PrintVector(const vector<Duration>& durs) {
+    for (const auto& d : durs) {
+        cout << d << ' ';
+    }
+    cout << endl;
+}
+
+// перегрузил оператор сравнения, чтобы использовать компактную запись sort(begin(v),end(v))
+bool operator<(const Duration& lhs, const Duration& rhs) {
+    if (lhs.hour == rhs.hour) {
+        return lhs.min < rhs.min;
+    }
+    return lhs.hour < rhs.hour;
+}
+
 int main() {
     stringstream dur_ss("01:50");
     // Duration dur1 = ReadDuration(dur_ss);
@@ -62,6 +82,19 @@ int main() {
     Duration dur2;
     dur_ss2 >> dur2;
     cout << dur2 << endl;
+    
+    Duration dur3 = dur1 + dur2;
+    cout << dur3 << endl;
+
+    vector<Duration> v {
+        dur3, dur1, dur2
+    };
+
+    PrintVector(v);
+
+    sort(begin(v), end(v)); // пришлось перегрузить оператор сравнения
+
+    PrintVector(v);
     
     return 0;
 }
