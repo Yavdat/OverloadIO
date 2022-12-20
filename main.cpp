@@ -15,14 +15,14 @@ struct Duration {
     }
 };
 
-Duration ReadDuration(istream& stream) {
-    int h = 0;
-    int m = 0;
-    stream >> h;
-    stream.ignore(1);
-    stream >> m;
-    return Duration {h, m};
-}
+// Duration ReadDuration(istream& stream) {
+//     int h = 0;
+//     int m = 0;
+//     stream >> h;
+//     stream.ignore(1);
+//     stream >> m;
+//     return Duration {h, m};
+// }
 
 // void PrintDuration(ostream& stream, const Duration& duration) {
 //     stream << setfill('0');
@@ -49,6 +49,7 @@ int main() {
     stringstream dur_ss("01:50");
     // Duration dur1 = ReadDuration(dur_ss);
     Duration dur1;
+    dur_ss >> dur1; // без этой строки выведется 00:00
     // PrintDuration(cout, dur1);
     // cout << dur1 << endl; // с endl не сработает, так требуется возвращать ссылку на поток в перегружаемом операторе
     // cout << "hello" << " world";
