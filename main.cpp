@@ -9,6 +9,10 @@ using namespace std;
 struct Duration {
     int hour;
     int min;
+    Duration(int h=0, int m=0) {
+        hour = h;
+        min = m;
+    }
 };
 
 Duration ReadDuration(istream& stream) {
@@ -26,10 +30,19 @@ Duration ReadDuration(istream& stream) {
 //             << setw(2) << duration.min;
 // }
 
+istream& operator>>(istream& stream, Duration& duration) {
+    
+    stream >> duration.hour;
+    stream.ignore(1);
+    stream >> duration.min;
+    return stream;
+}
+
 ostream& operator<<(ostream& stream, const Duration& duration) {
     stream << setfill('0'); 
     stream << setw(2) << duration.hour << ':'
-            << setw(2) << duration.min;
+           << setw(2) << duration.min;
+    return stream;
 }
 
 int main() {
@@ -42,5 +55,10 @@ int main() {
 
     cout << dur1 << endl; // теперь все норм
     cout << endl;
+    stringstream dur_ss2("02:50");
+    Duration dur2;
+    dur_ss2 >> dur2;
+    cout << dur2 << endl;
+    
     return 0;
 }
